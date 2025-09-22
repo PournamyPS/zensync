@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Health Companion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <h1>🌟 AI Health Companion Chatbot</h1>
+
+    <!-- Main Tabs -->
+    <div class="tabs">
+      <button class="tab-btn" onclick="showTab('mental')">Mental Health</button>
+      <button class="tab-btn" onclick="showTab('physical')">Physical Health</button>
+    </div>
+
+    <!-- Mental Health Tab -->
+    <div id="mental" class="tab-content">
+      <h2>Mental Health Check</h2>
+      <div id="chat"></div>
+      <input id="mentalInput" placeholder="How are you feeling today?">
+      <button onclick="sendMental()">Send</button>
+      <div id="stressResult"></div>
+    </div>
+
+    <!-- Physical Health Tab -->
+    <div id="physical" class="tab-content" style="display:none;">
+      <h2>Physical Health Check</h2>
+      <div class="sub-tabs">
+        <button class="tab-btn" onclick="showSubTab('symptom')">Symptom Checker</button>
+        <button class="tab-btn" onclick="showSubTab('medication')">Medication Checker</button>
+      </div>
+
+      <!-- Symptom Checker -->
+      <div id="symptom" class="sub-content">
+        <input id="symptomInput" placeholder="Enter symptoms (e.g., fever, cough)">
+        <button onclick="checkSymptoms()">Check</button>
+        <div id="symptomResult"></div>
+      </div>
+
+      <!-- Medication Checker -->
+      <div id="medication" class="sub-content" style="display:none;">
+        <input id="medInput" placeholder="Enter medications (e.g., paracetamol, ibuprofen)">
+        <button onclick="checkMeds()">Check</button>
+        <div id="medResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

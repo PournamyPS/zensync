@@ -1,0 +1,68 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f8fb;
+  color: #333;
+  text-align: center;
+}
+
+#app {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.tabs, .sub-tabs {
+  margin: 15px 0;
+}
+
+.tab-btn {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.tab-btn:hover {
+  background: #0056b3;
+}
+
+.tab-content, .sub-content {
+  margin-top: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+#chat {
+  min-height: 120px;
+  text-align: left;
+  padding: 10px;
+  background: #eef3f7;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.chat-msg {
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+}
+
+.user { background: #d1e7ff; text-align: right; }
+.bot { background: #e2f7d4; text-align: left; }
+
+.card {
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
