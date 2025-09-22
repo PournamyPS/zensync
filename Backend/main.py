@@ -1,10 +1,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
-# Initialize Gemini API
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+load_dotenv()  # Load environment variables from .env file
 
+api_key = os.getenv("GEMINI_API_KEY")
+if api_key is None:
+    raise ValueError("API key not found. Please set the GEMINI_API_KEY environment variable.")
+genai.configure(api_key=api_key)
 app = FastAPI()
 
 # Request models
@@ -50,3 +55,4 @@ def medication_checker(req: MedRequest):
     prompt = f"Check for interactions or side effects between: '{req.meds}'. Explain simply."
     response = genai.generate_text(model="gemini-1.5", prompt=prompt)
     return {"result": response.text}
+
