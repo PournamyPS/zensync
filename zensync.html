@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title><b>ZenSync</b>the health Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal-deep:#12574a;
+  --teal-mid:#0F6E56;
+  --teal-bright:#1D9E75;
+  --teal-light:#E1F5EE;
+  --teal-pale:#F0FAF6;
+  --cream:#F7F3EE;
+  --cream-dark:#EDE9E1;
+  --text-dark:#0D2620;
+  --text-mid:#2E5044;
+  --text-soft:#557A6A;
+  --text-muted:#8BA89A;
+  --white:#FFFFFF;
+  --coral:#E8856A;
+  --coral-light:#FAEDE8;
+  --amber:#D4960A;
+  --amber-light:#FEF7E0;
+  --border:#C8E0D8;
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --radius-xl:28px;
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--text-dark);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── HEADER ── */
+header{
+  background:var(--teal-deep);
+  padding:0 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.logo-icon{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--teal-bright),#5DCAA5);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.logo-text{
+  font-family:'Instrument Serif',serif;
+  font-size:22px;
+  color:var(--white);
+  letter-spacing:-0.3px;
+}
+.logo-tag{
+  font-size:11px;
+  color:rgba(255,255,255,0.5);
+  margin-left:4px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+.header-disclaimer{
+  font-size:11px;
+  color:rgba(255,255,255,0.4);
+  max-width:300px;
+  text-align:right;
+  line-height:1.4;
+}
+
+/* ── HERO ── */
+.hero{
+  background:var(--teal-deep);
+  padding:3rem 2rem 4rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(29,158,117,0.25),transparent);
+}
+.hero-eyebrow{
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--teal-bright);
+  margin-bottom:1rem;
+}
+.hero-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  color:var(--white);
+  line-height:1.15;
+  margin-bottom:1rem;
+  position:relative;
+}
+.hero-title em{
+  font-style:italic;
+  color:#5DCAA5;
+}
+.hero-sub{
+  font-size:15px;
+  color:rgba(255,255,255,0.6);
+  max-width:520px;
+  margin:0 auto 2.5rem;
+  line-height:1.7;
+  position:relative;
+}
+.disclaimer-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:100px;
+  padding:6px 14px;
+  font-size:12px;
+  color:rgba(255,255,255,0.5);
+  position:relative;
+}
+.disclaimer-badge span{font-size:14px;}
+
+/* ── NAV TABS ── */
+.nav-tabs{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;
+  gap:0;
+  position:sticky;
+  top:64px;
+  z-index:90;
+  overflow-x:auto;
+}
+.nav-tab{
+  padding:0 1.5rem;
+  height:52px;
+  display:flex;align-items:center;gap:8px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--text-soft);
+  cursor:pointer;
+  border:none;
+  background:none;
+  border-bottom:2.5px solid transparent;
+  white-space:nowrap;
+  transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.nav-tab:hover{color:var(--teal-mid);}
+.nav-tab.active{
+  color:var(--teal-mid);
+  border-bottom-color:var(--teal-bright);
+}
+.tab-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  display:inline-block;
+}
+
+/* ── MAIN CONTENT ── */
+.main{
+  flex:1;
+  max-width:760px;
+  width:100%;
+  margin:0 auto;
+  padding:2.5rem 1.5rem;
+}
+
+/* ── SECTIONS ── */
+.section{display:none;}
+.section.active{display:block;}
+
+.section-header{margin-bottom:2rem;}
+.section-title{
+  font-family:'Instrument Serif',serif;
+  font-size:1.8rem;
+  color:var(--text-dark);
+  line-height:1.2;
+  margin-bottom:0.5rem;
+}
+.section-desc{
+  font-size:14px;
+  color:var(--text-soft);
+  line-height:1.6;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  padding:1.75rem;
+  margin-bottom:1.5rem;
+}
+.card-label{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:0.75rem;
+}
+
+/* ── INPUTS ── */
+textarea{
+  width:100%;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  color:var(--text-dark);
+  background:var(--cream);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:1rem 1.25rem;
+  resize:vertical;
+  min-height:110px;
+  transition:border-color 0.2s;
+  line-height:1.6;
+}
+textarea:focus{
+  outline:none;
+  border-color:var(--teal-bright);
+  background:var(--white);
+}
+textarea::placeholder{color:var(--text-muted);}
+input[type=text]{
+  width:100%;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  color:var(--text-dark);
+  background:var(--cream);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:0.75rem 1.25rem;
+  transition:border-color 0.2s;
+}
+input[type=text]:focus{
+  outline:none;
+  border-color:var(--teal-bright);
+  background:var(--white);
+}
+input[type=text]::placeholder{color:var(--text-muted);}
+
+/* ── BUTTONS ── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal-mid);
+  color:var(--white);
+  border:none;
+  border-radius:var(--radius-md);
+  padding:0.75rem 1.75rem;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  transition:background 0.2s,transform 0.1s;
+}
+.btn-primary:hover{background:var(--teal-deep);}
+.btn-primary:active{transform:scale(0.98);}
+.btn-primary:disabled{
+  background:var(--text-muted);
+  cursor:not-allowed;
+  transform:none;
+}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;
+  color:var(--text-soft);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:0.6rem 1.25rem;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-ghost:hover{border-color:var(--teal-bright);color:var(--teal-mid);}
+.btn-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem;}
+.chip{
+  padding:5px 14px;
+  border-radius:100px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  border:1.5px solid var(--border);
+  background:var(--white);
+  color:var(--text-soft);
+  transition:all 0.15s;
+}
+.chip:hover,.chip.selected{
+  background:var(--teal-light);
+  border-color:var(--teal-bright);
+  color:var(--teal-deep);
+}
+
+/* ── RESULT AREAS ── */
+.result-box{
+  background:var(--teal-pale);
+  border:1px solid #C0E8D6;
+  border-radius:var(--radius-lg);
+  padding:1.75rem;
+  margin-top:1.5rem;
+  display:none;
+}
+.result-box.visible{display:block;}
+.result-box.error-box{
+  background:var(--coral-light);
+  border-color:#F5C4B3;
+}
+
+/* ── STRESS SCORE WIDGET ── */
+.score-row{
+  display:flex;align-items:center;gap:1.5rem;
+  margin-bottom:1.5rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid #C0E8D6;
+  flex-wrap:wrap;
+}
+.score-circle{
+  width:84px;height:84px;
+  border-radius:50%;
+  border:4px solid;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.score-num{font-size:26px;font-weight:600;line-height:1;}
+.score-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.score-info h3{
+  font-family:'Instrument Serif',serif;
+  font-size:1.3rem;
+  margin-bottom:4px;
+}
+.score-info p{font-size:14px;color:var(--text-soft);line-height:1.5;}
+
+/* ── RESULT SECTIONS ── */
+.res-section{margin-bottom:1.25rem;}
+.res-section-title{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--teal-mid);
+  margin-bottom:0.6rem;
+  display:flex;align-items:center;gap:6px;
+}
+.res-section-title .icon{font-size:14px;}
+.res-body{
+  font-size:14px;
+  line-height:1.75;
+  color:var(--text-dark);
+}
+.res-list{
+  list-style:none;
+  padding:0;
+}
+.res-list li{
+  padding:6px 0 6px 1.25rem;
+  font-size:14px;
+  line-height:1.55;
+  color:var(--text-dark);
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  position:relative;
+}
+.res-list li:last-child{border-bottom:none;}
+.res-list li::before{
+  content:'';
+  position:absolute;left:0;top:14px;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--teal-bright);
+}
+
+/* ── THERAPIST CARDS ── */
+.therapist-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+  margin-top:8px;
+}
+.therapist-card{
+  background:var(--white);
+  border-radius:var(--radius-md);
+  border:1px solid var(--border);
+  padding:1rem;
+}
+.therapist-card .t-name{
+  font-weight:600;
+  font-size:14px;
+  margin-bottom:4px;
+  color:var(--text-dark);
+}
+.therapist-card .t-spec{
+  font-size:12px;
+  color:var(--teal-mid);
+  margin-bottom:8px;
+}
+.therapist-card .t-info{
+  font-size:12px;
+  color:var(--text-soft);
+  line-height:1.5;
+}
+
+/* ── LOADING ── */
+.loader{
+  display:none;
+  align-items:center;gap:12px;
+  padding:1.25rem 0;
+  color:var(--text-soft);
+  font-size:14px;
+}
+.loader.visible{display:flex;}
+.loader-dots{display:flex;gap:5px;}
+.loader-dots span{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--teal-bright);
+  animation:bounce 1.2s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2){animation-delay:0.2s;}
+.loader-dots span:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{
+  0%,80%,100%{transform:scale(0.6);opacity:0.5;}
+  40%{transform:scale(1);opacity:1;}
+}
+
+/* ── SEVERITY CHIPS ── */
+.severity-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap;}
+.sev-chip{
+  padding:6px 16px;
+  border-radius:100px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  border:1.5px solid;
+  transition:all 0.15s;
+}
+.sev-mild{border-color:#C0E8D6;color:#0F6E56;background:var(--teal-light);}
+.sev-moderate{border-color:#FAC775;color:#633806;background:#FAEEDA;}
+.sev-severe{border-color:#F0997B;color:#712B13;background:#FAECE7;}
+.sev-chip.selected{box-shadow:0 0 0 2px currentColor;}
+
+/* ── MEDS INPUT ROW ── */
+.med-input-row{display:flex;gap:8px;margin-bottom:10px;}
+.med-input-row input{flex:1;}
+.btn-add{
+  padding:0 1rem;
+  height:44px;
+  border-radius:var(--radius-md);
+  background:var(--teal-light);
+  color:var(--teal-mid);
+  border:1.5px solid var(--teal-bright);
+  font-size:20px;font-weight:300;
+  cursor:pointer;
+  transition:all 0.15s;
+  flex-shrink:0;
+}
+.btn-add:hover{background:var(--teal-bright);color:var(--white);}
+.med-tags{display:flex;flex-wrap:wrap;gap:6px;min-height:32px;}
+.med-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;
+  border-radius:100px;
+  background:var(--teal-light);
+  color:var(--teal-deep);
+  font-size:13px;font-weight:500;
+  border:1px solid var(--teal-bright);
+}
+.med-tag button{
+  background:none;border:none;color:var(--teal-mid);
+  cursor:pointer;font-size:16px;line-height:1;padding:0;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state{
+  text-align:center;padding:3rem 1rem;
+  color:var(--text-muted);
+}
+.empty-icon{font-size:40px;margin-bottom:1rem;opacity:0.5;}
+.empty-state p{font-size:14px;line-height:1.6;}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--teal-deep);
+  padding:1.5rem 2rem;
+  text-align:center;
+  color:rgba(255,255,255,0.35);
+  font-size:12px;
+  line-height:1.6;
+}
+footer a{color:rgba(255,255,255,0.5);text-decoration:none;}
+
+/* ── HOSPITAL CROWD CHECKER ── */
+.hosp-search-row{
+  display:flex;gap:8px;align-items:stretch;
+  margin-bottom:0.75rem;
+}
+.hosp-search-row input{flex:1;}
+.btn-locate{
+  padding:0 1rem;
+  height:44px;
+  border-radius:var(--radius-md);
+  background:var(--teal-light);
+  color:var(--teal-mid);
+  border:1.5px solid var(--teal-bright);
+  font-size:13px;font-weight:500;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.15s;
+  font-family:'DM Sans',sans-serif;
+  flex-shrink:0;
+  display:flex;align-items:center;gap:5px;
+}
+.btn-locate:hover{background:var(--teal-bright);color:var(--white);}
+.hosp-radius-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:1rem;
+  font-size:13px;color:var(--text-soft);
+}
+.hosp-radius-row select{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  color:var(--text-dark);
+  background:var(--cream);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:4px 10px;
+  cursor:pointer;
+}
+.hosp-meta-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:1rem;
+  font-size:12px;color:var(--text-muted);
+}
+.hosp-grid{
+  display:flex;flex-direction:column;gap:12px;
+}
+.hosp-card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  padding:1.25rem 1.5rem;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:0.75rem 1rem;
+  align-items:start;
+  transition:border-color 0.2s;
+}
+.hosp-card:hover{border-color:var(--teal-bright);}
+.hosp-name{
+  font-weight:600;font-size:15px;
+  color:var(--text-dark);
+  margin-bottom:3px;
+  line-height:1.3;
+}
+.hosp-address{
+  font-size:12px;color:var(--text-soft);
+  line-height:1.5;
+}
+.hosp-distance{
+  font-size:11px;color:var(--teal-mid);
+  font-weight:500;margin-top:4px;
+}
+.hosp-right{
+  display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+}
+.crowd-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:100px;
+  font-size:12px;font-weight:700;
+  border:1.5px solid;
+}
+.crowd-low{color:#0F6E56;background:#E1F5EE;border-color:#5DCAA5;}
+.crowd-medium{color:#633806;background:#FAEEDA;border-color:#FAC775;}
+.crowd-high{color:#712B13;background:#FAECE7;border-color:#F0997B;}
+.wait-label{font-size:12px;color:var(--text-muted);text-align:right;}
+.wait-time{font-size:16px;font-weight:600;color:var(--text-dark);line-height:1;}
+.crowd-bar-wrap{
+  grid-column:1/-1;
+  display:flex;align-items:center;gap:8px;
+}
+.crowd-bar-track{
+  flex:1;height:5px;
+  background:var(--cream-dark);
+  border-radius:100px;overflow:hidden;
+}
+.crowd-bar-fill{
+  height:100%;border-radius:100px;
+  transition:width 0.6s ease;
+}
+.crowd-bar-pct{
+  font-size:11px;color:var(--text-muted);
+  min-width:32px;text-align:right;
+}
+.hosp-type-tag{
+  font-size:10px;font-weight:600;letter-spacing:0.5px;
+  text-transform:uppercase;
+  color:var(--text-muted);margin-top:2px;
+}
+.hosp-peek-time{
+  font-size:11px;color:var(--text-soft);
+  margin-top:2px;text-align:right;
+}
+
+.hosp-extra { 
+  display:none; 
+  margin-top:10px; 
+  font-size:12px; 
+  color:var(--text-soft); 
+  line-height:1.5;
+}
+.hosp-card.open .hosp-extra { 
+  display:block; 
+}
+
+.time-context-bar{
+  display:flex;align-items:center;gap:8px;
+  background:var(--teal-pale);
+  border:1px solid #C0E8D6;
+  border-radius:var(--radius-md);
+  padding:0.75rem 1rem;
+  margin-bottom:1.25rem;
+  font-size:13px;color:var(--text-mid);
+}
+.time-context-bar strong{color:var(--teal-deep);}
+.hosp-empty{
+  text-align:center;padding:2.5rem 1rem;
+  color:var(--text-muted);font-size:14px;line-height:1.7;
+}
+.btn-refresh{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;
+  color:var(--teal-mid);
+  border:1.5px solid var(--teal-bright);
+  border-radius:var(--radius-md);
+  padding:0.6rem 1.25rem;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:500;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-refresh:hover{background:var(--teal-light);}
+.btn-refresh.spinning svg{animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .hero{padding:2rem 1rem 3rem;}
+  .nav-tabs{padding:0 0.5rem;}
+  .nav-tab{padding:0 0.75rem;}
+  .main{padding:1.5rem 1rem;}
+  .score-row{flex-direction:column;text-align:center;}
+  .hosp-card{grid-template-columns:1fr;}
+  .hosp-right{align-items:flex-start;flex-direction:row;gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🌿</div>
+    <div>
+      <span class="logo-text">ZenSync</span>
+    </div>
+  </div>
+  <div class="header-disclaimer">Not a substitute for professional medical advice</div>
+</header>
+
+<div class="hero">
+  <p class="hero-eyebrow">Your Health Companion</p>
+  <h1 class="hero-title">Feel understood.<br/><em>Take the first step.</em></h1>
+  <p class="hero-sub">Accessible health guidance for your mind and body , designed with care.</p>
+  <div class="disclaimer-badge">
+    <span>🛡️</span> First-level support only · Always consult a professional for medical decisions
+  </div>
+</div>
+
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('mental')">
+    <span class="tab-dot" style="background:#1D9E75;"></span>
+    Mental Health
+  </button>
+  <button class="nav-tab" onclick="switchTab('symptoms')">
+    <span class="tab-dot" style="background:#D4960A;"></span>
+    Symptom Checker
+  </button>
+  <button class="nav-tab" onclick="switchTab('meds')">
+    <span class="tab-dot" style="background:#E8856A;"></span>
+    Medication Checker
+  </button>
+  <button class="nav-tab" onclick="switchTab('hospitals')">
+    <span class="tab-dot" style="background:#378ADD;"></span>
+    Hospital Crowd
+  </button>
+</nav>
+
+<main class="main">
+
+  <!-- ──── MENTAL HEALTH SECTION ──── -->
+  <section class="section active" id="sec-mental">
+    <div class="section-header">
+      <h2 class="section-title">How are you feeling?</h2>
+      <p class="section-desc">Share what's on your mind :your emotions, stress, or any mental health concerns. We'll analyze your state and suggest next steps.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Your feelings</div>
+      <textarea id="mental-input" placeholder="E.g. I've been feeling overwhelmed at work lately, struggling to sleep, and feeling disconnected from friends..."></textarea>
+
+      <div style="margin-top:1rem;">
+        <div class="card-label" style="margin-bottom:0.5rem;">Quick mood tags (optional)</div>
+        <div class="chips">
+          <span class="chip" onclick="toggleChip(this,'mental')">😰 Anxious</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😞 Depressed</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😤 Stressed</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😠 Irritable</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😴 Exhausted</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😶 Numb</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😔 Lonely</span>
+          <span class="chip" onclick="toggleChip(this,'mental')">😰 Overwhelmed</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="runMental()">
+          Analyze my mental state
+          <span>→</span>
+        </button>
+        <button class="btn-ghost" onclick="clearSection('mental')">Clear</button>
+      </div>
+    </div>
+
+    <div class="loader" id="mental-loader">
+      <div class="loader-dots"><span></span><span></span><span></span></div>
+      <span>Analyzing your emotional state…</span>
+    </div>
+
+    <div class="result-box" id="mental-result"></div>
+  </section>
+
+  <!-- ──── SYMPTOMS SECTION ──── -->
+  <section class="section" id="sec-symptoms">
+    <div class="section-header">
+      <h2 class="section-title">What symptoms are you experiencing?</h2>
+      <p class="section-desc">Describe your physical symptoms in plain language. We'll provide possible explanations and guidance on what to do next.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Describe your symptoms</div>
+      <textarea id="symptom-input" placeholder="E.g. I've had a throbbing headache for 2 days, mild fever, and my neck feels stiff when I move it..."></textarea>
+
+      <div style="margin-top:1rem;">
+        <div class="card-label" style="margin-bottom:0.5rem;">Severity</div>
+        <div class="severity-row">
+          <span class="sev-chip sev-mild" onclick="setSeverity('mild',this)">Mild — manageable</span>
+          <span class="sev-chip sev-moderate" onclick="setSeverity('moderate',this)">Moderate — affecting daily life</span>
+          <span class="sev-chip sev-severe" onclick="setSeverity('severe',this)">Severe — very uncomfortable</span>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="card-label" style="margin-bottom:0.5rem;">Duration</div>
+        <div class="chips" id="duration-chips">
+          <span class="chip" onclick="toggleDuration(this)">Today</span>
+          <span class="chip" onclick="toggleDuration(this)">2–3 days</span>
+          <span class="chip" onclick="toggleDuration(this)">1 week</span>
+          <span class="chip" onclick="toggleDuration(this)">2+ weeks</span>
+          <span class="chip" onclick="toggleDuration(this)">Chronic / recurring</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="runSymptoms()">
+          Check symptoms
+          <span>→</span>
+        </button>
+        <button class="btn-ghost" onclick="clearSection('symptoms')">Clear</button>
+      </div>
+    </div>
+
+    <div class="loader" id="symptoms-loader">
+      <div class="loader-dots"><span></span><span></span><span></span></div>
+      <span>Analyzing symptoms…</span>
+    </div>
+
+    <div class="result-box" id="symptoms-result"></div>
+  </section>
+
+  <!-- ──── MEDICATIONS SECTION ──── -->
+  <section class="section" id="sec-meds">
+    <div class="section-header">
+      <h2 class="section-title">Medication checker</h2>
+      <p class="section-desc">Enter one or more medications to learn about their side effects, warnings, and any potential interactions between them.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Add medications</div>
+      <div class="med-input-row">
+        <input type="text" id="med-input-field" placeholder="E.g. Ibuprofen, Metformin, Lisinopril…" onkeydown="if(event.key==='Enter')addMed()"/>
+        <button class="btn-add" onclick="addMed()">+</button>
+      </div>
+      <div class="med-tags" id="med-tags">
+        <span style="font-size:13px;color:var(--text-muted);padding:4px 0;">No medications added yet</span>
+      </div>
+
+      <div style="margin-top:1.25rem;">
+        <div class="card-label" style="margin-bottom:0.5rem;">Additional context (optional)</div>
+        <textarea id="med-context" style="min-height:75px;" placeholder="E.g. I'm 65 years old, diabetic, and currently pregnant…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="runMeds()">
+          Check medications
+          <span>→</span>
+        </button>
+        <button class="btn-ghost" onclick="clearSection('meds')">Clear all</button>
+      </div>
+    </div>
+
+    <div class="loader" id="meds-loader">
+      <div class="loader-dots"><span></span><span></span><span></span></div>
+      <span>Checking interactions &amp; side effects…</span>
+    </div>
+
+    <div class="result-box" id="meds-result"></div>
+  </section>
+
+  <!-- ──── HOSPITAL CROWD CHECKER SECTION ──── -->
+  <!-- DATA: OpenStreetMap Overpass API (free, no key) + Nominatim geocoding (free, no key) -->
+  <!-- Crowd levels are simulated using time-of-day + day-of-week + per-hospital deterministic noise -->
+  <section class="section" id="sec-hospitals">
+    <div class="section-header">
+      <h2 class="section-title">Hospital crowd levels</h2>
+      <p class="section-desc">Find nearby hospitals and see estimated crowd levels and wait times based on real location data and time-of-day patterns.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Your location</div>
+      <div class="hosp-search-row">
+        <input type="text" id="hosp-location-input" placeholder="Enter city, address, or postcode — e.g. Mumbai, India"/>
+        <button class="btn-locate" onclick="useGeolocation()" title="Use my current location">
+          📍 Near me
+        </button>
+      </div>
+
+      <div class="hosp-radius-row">
+        <span>Search radius:</span>
+        <select id="hosp-radius">
+          <option value="3000">3 km</option>
+          <option value="5000" selected>5 km</option>
+          <option value="10000">10 km</option>
+          <option value="20000">20 km</option>
+        </select>
+        <span style="margin-left:auto;font-style:italic;font-size:12px;">Data via OpenStreetMap · No API key required</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="checkHospitals()">
+          Find hospitals
+          <span>→</span>
+        </button>
+        <button class="btn-refresh" id="hosp-refresh-btn" onclick="refreshHospitals()" style="display:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          Refresh
+        </button>
+        <button class="btn-ghost" onclick="clearHospitals()">Clear</button>
+      </div>
+    </div>
+
+    <div class="loader" id="hospitals-loader">
+      <div class="loader-dots"><span></span><span></span><span></span></div>
+      <span id="hospitals-loader-text">Locating nearby hospitals…</span>
+    </div>
+
+    <div id="hospitals-output" style="display:none;"></div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong style="color:rgba(255,255,255,0.6);">ZenSync</strong> is a first-level support tool and does not replace professional medical or psychological advice.<br/>
+  If you are in crisis, call your local emergency number or a mental health helpline immediately.<br/>
+  Built with ❤️ </p>
+</footer>
+
+<script>
+const API_URL = 'https://api.anthropic.com/v1/messages';
+
+// ── STATE ──
+let selectedMeds = [];
+let selectedSeverity = '';
+let selectedDuration = '';
+let selectedMoodTags = [];
+
+// ── TAB SWITCHING ──
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('sec-' + tab).classList.add('active');
+}
+
+// ── CHIP TOGGLES ──
+function toggleChip(el, group) {
+  el.classList.toggle('selected');
+}
+function setSeverity(val, el) {
+  document.querySelectorAll('.sev-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSeverity = val;
+}
+function toggleDuration(el) {
+  document.querySelectorAll('#duration-chips .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDuration = el.textContent.trim();
+}
+
+// ── MEDS MANAGEMENT ──
+function addMed() {
+  const inp = document.getElementById('med-input-field');
+  const val = inp.value.trim();
+  if (!val) return;
+  const meds = val.split(/[,;]+/).map(m => m.trim()).filter(Boolean);
+  meds.forEach(m => {
+    if (m && !selectedMeds.includes(m)) selectedMeds.push(m);
+  });
+  inp.value = '';
+  renderMedTags();
+}
+function removeMed(med) {
+  selectedMeds = selectedMeds.filter(m => m !== med);
+  renderMedTags();
+}
+function renderMedTags() {
+  const el = document.getElementById('med-tags');
+  if (!selectedMeds.length) {
+    el.innerHTML = '<span style="font-size:13px;color:var(--text-muted);padding:4px 0;">No medications added yet</span>';
+    return;
+  }
+  el.innerHTML = selectedMeds.map(m =>
+    `<span class="med-tag">${m}<button onclick="removeMed('${m.replace(/'/g,"\\'")}')">×</button></span>`
+  ).join('');
+}
+
+// ── CLEAR ──
+function clearSection(sec) {
+  if (sec === 'mental') {
+    document.getElementById('mental-input').value = '';
+    document.querySelectorAll('.chips .chip').forEach(c => c.classList.remove('selected'));
+    hide('mental-result'); hide('mental-loader');
+  } else if (sec === 'symptoms') {
+    document.getElementById('symptom-input').value = '';
+    document.querySelectorAll('.sev-chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#duration-chips .chip').forEach(c => c.classList.remove('selected'));
+    selectedSeverity = ''; selectedDuration = '';
+    hide('symptoms-result'); hide('symptoms-loader');
+  } else if (sec === 'meds') {
+    selectedMeds = [];
+    renderMedTags();
+    document.getElementById('med-context').value = '';
+    hide('meds-result'); hide('meds-loader');
+  }
+}
+
+function show(id) { document.getElementById(id).classList.add('visible'); }
+function hide(id) { document.getElementById(id).classList.remove('visible'); }
+function showLoader(id) { document.getElementById(id).classList.add('visible'); }
+function hideLoader(id) { document.getElementById(id).classList.remove('visible'); }
+
+// ── CLAUDE API CALL ──
+async function callClaude(systemPrompt, userMessage) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  const data = await res.json();
+  return data.content.map(b => b.text || '').join('');
+}
+
+// ── MENTAL HEALTH ──
+async function runMental() {
+  const text = document.getElementById('mental-input').value.trim();
+  const tags = [...document.querySelectorAll('#sec-mental .chip.selected')].map(c => c.textContent.trim()).join(', ');
+  if (!text && !tags) { alert('Please describe how you are feeling first.'); return; }
+
+  const userMsg = text + (tags ? `\n\nMood tags selected: ${tags}` : '');
+
+  showLoader('mental-loader');
+  hide('mental-result');
+
+  const system = `You are ZenSync, a compassionate AI mental health companion. Analyze the user's emotional state and respond ONLY with a JSON object in this exact structure (no markdown, no extra text):
+{
+  "score": <integer 1-10 where 1=very low stress, 10=severe distress>,
+  "level": "<Calm|Mild Stress|Moderate Stress|High Stress|Severe Distress>",
+  "summary": "<2-3 sentence empathetic summary of their emotional state>",
+  "coping": ["<strategy 1>", "<strategy 2>", "<strategy 3>", "<strategy 4>"],
+  "whenToSeek": "<one sentence about when they should seek professional help>",
+  "therapists": [
+    {"name": "<realistic name>", "specialty": "<specialty>", "location": "<city, country>", "contact": "<phone or website>"},
+    {"name": "<realistic name>", "specialty": "<specialty>", "location": "<city, country>", "contact": "<phone or website>"},
+    {"name": "<realistic name>", "specialty": "<specialty>", "location": "<city, country>", "contact": "<phone or website>"}
+  ],
+  "hotline": "<relevant crisis hotline name and number>"
+}
+Make therapist suggestions realistic and geographically diverse. Be warm and non-judgmental.`;
+
+  try {
+    const raw = await callClaude(system, userMsg);
+    let json;
+    try {
+      json = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    } catch {
+      throw new Error('Could not parse response');
+    }
+    renderMentalResult(json);
+  } catch (e) {
+    renderError('mental-result', e.message);
+  } finally {
+    hideLoader('mental-loader');
+  }
+}
+
+function renderMentalResult(d) {
+  const scoreColors = {
+    1:'#1D9E75', 2:'#1D9E75', 3:'#5DCAA5', 4:'#5DCAA5',
+    5:'#D4960A', 6:'#D4960A', 7:'#E8856A', 8:'#E8856A',
+    9:'#D85A30', 10:'#D85A30'
+  };
+  const sc = scoreColors[d.score] || '#D4960A';
+
+  const therapistCards = (d.therapists || []).map(t => `
+    <div class="therapist-card">
+      <div class="t-name">${t.name}</div>
+      <div class="t-spec">${t.specialty}</div>
+      <div class="t-info">📍 ${t.location}<br/>📞 ${t.contact}</div>
+    </div>`).join('');
+
+  const copingList = (d.coping || []).map(c => `<li>${c}</li>`).join('');
+
+  document.getElementById('mental-result').innerHTML = `
+    <div class="score-row">
+      <div class="score-circle" style="border-color:${sc};color:${sc}">
+        <span class="score-num">${d.score}</span>
+        <span class="score-label" style="color:${sc};opacity:0.7;">/10</span>
+      </div>
+      <div class="score-info">
+        <h3>${d.level || 'Emotional Assessment'}</h3>
+        <p>${d.summary || ''}</p>
+      </div>
+    </div>
+
+    <div class="res-section">
+      <div class="res-section-title"><span class="icon">🌱</span> Coping strategies</div>
+      <ul class="res-list">${copingList}</ul>
+    </div>
+
+    ${d.whenToSeek ? `<div class="res-section">
+      <div class="res-section-title"><span class="icon">🏥</span> When to seek help</div>
+      <div class="res-body">${d.whenToSeek}</div>
+    </div>` : ''}
+
+    ${d.hotline ? `<div style="background:rgba(29,158,117,0.1);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:13px;color:var(--teal-deep);">
+      <strong>Crisis Support:</strong> ${d.hotline}
+    </div>` : ''}
+
+    ${therapistCards ? `<div class="res-section">
+      <div class="res-section-title"><span class="icon">👤</span> Therapist suggestions</div>
+      <div class="therapist-grid">${therapistCards}</div>
+    </div>` : ''}
+  `;
+  show('mental-result');
+}
+
+// ── SYMPTOMS ──
+async function runSymptoms() {
+  const text = document.getElementById('symptom-input').value.trim();
+  if (!text) { alert('Please describe your symptoms first.'); return; }
+
+  const context = `Symptoms: ${text}${selectedSeverity ? `\nSeverity: ${selectedSeverity}` : ''}${selectedDuration ? `\nDuration: ${selectedDuration}` : ''}`;
+
+  showLoader('symptoms-loader');
+  hide('symptoms-result');
+
+  const system = `You are ZenSync, a careful AI health assistant. Analyze the described symptoms and respond ONLY with a JSON object (no markdown, no extra text):
+{
+  "headline": "<short reassuring headline>",
+  "overview": "<2-3 sentence accessible overview of what might be happening>",
+  "conditions": [
+    {"name": "<condition name>", "likelihood": "<Common|Possible|Less likely>", "description": "<1-2 sentences>"},
+    {"name": "<condition name>", "likelihood": "<Common|Possible|Less likely>", "description": "<1-2 sentences>"},
+    {"name": "<condition name>", "likelihood": "<Common|Possible|Less likely>", "description": "<1-2 sentences>"}
+  ],
+  "redFlags": ["<warning sign 1>", "<warning sign 2>"],
+  "selfCare": ["<self-care tip 1>", "<self-care tip 2>", "<self-care tip 3>"],
+  "urgency": "<See a doctor within: Today|2-3 days|This week|If no improvement|Emergency — seek care now>",
+  "urgencyReason": "<brief reason for urgency recommendation>"
+}
+Be clear that this is not a diagnosis. Be compassionate and clear.`;
+
+  try {
+    const raw = await callClaude(system, context);
+    let json;
+    try { json = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
+    catch { throw new Error('Could not parse response'); }
+    renderSymptomsResult(json);
+  } catch (e) {
+    renderError('symptoms-result', e.message);
+  } finally {
+    hideLoader('symptoms-loader');
+  }
+}
+
+function renderSymptomsResult(d) {
+  const urgencyColors = {
+    'Emergency — seek care now': '#D85A30',
+    'Today': '#D85A30',
+    '2-3 days': '#D4960A',
+    'This week': '#D4960A',
+    'If no improvement': '#1D9E75'
+  };
+  const urgencyKey = Object.keys(urgencyColors).find(k => (d.urgency||'').includes(k.split(' ')[0]));
+  const urgencyColor = urgencyColors[urgencyKey] || '#D4960A';
+
+  const likelihoodColor = {
+    'Common': 'var(--teal-mid)',
+    'Possible': '#D4960A',
+    'Less likely': 'var(--text-muted)'
+  };
+
+  const conditionCards = (d.conditions || []).map(c => `
+    <li style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);">
+      <span style="font-size:12px;font-weight:600;color:${likelihoodColor[c.likelihood]||'var(--text-soft)'};white-space:nowrap;padding-top:1px;">${c.likelihood}</span>
+      <div>
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px;">${c.name}</div>
+        <div style="font-size:13px;color:var(--text-soft);line-height:1.5;">${c.description}</div>
+      </div>
+    </li>`).join('');
+
+  const selfCareList = (d.selfCare || []).map(s => `<li>${s}</li>`).join('');
+  const redFlagList = (d.redFlags || []).map(r => `<li style="color:#993C1D;">${r}</li>`).join('');
+
+  document.getElementById('symptoms-result').innerHTML = `
+    <div style="border-bottom:1px solid #C0E8D6;padding-bottom:1.25rem;margin-bottom:1.25rem;">
+      <h3 style="font-family:'Instrument Serif',serif;font-size:1.25rem;margin-bottom:6px;">${d.headline || 'Symptom Analysis'}</h3>
+      <p style="font-size:14px;line-height:1.7;color:var(--text-dark);">${d.overview || ''}</p>
+    </div>
+
+    <div style="display:inline-flex;align-items:center;gap:8px;background:${urgencyColor}15;border:1px solid ${urgencyColor}40;border-radius:100px;padding:6px 16px;margin-bottom:1.25rem;">
+      <span style="width:8px;height:8px;border-radius:50%;background:${urgencyColor};display:inline-block;"></span>
+      <span style="font-size:13px;font-weight:600;color:${urgencyColor};">${d.urgency}</span>
+      ${d.urgencyReason ? `<span style="font-size:12px;color:var(--text-soft);">· ${d.urgencyReason}</span>` : ''}
+    </div>
+
+    <div class="res-section">
+      <div class="res-section-title"><span class="icon">🔍</span> Possible conditions</div>
+      <ul style="list-style:none;padding:0;">${conditionCards}</ul>
+    </div>
+
+    ${redFlagList ? `<div class="res-section">
+      <div class="res-section-title" style="color:#993C1D;"><span class="icon">⚠️</span> Warning signs — seek help if you notice</div>
+      <ul class="res-list" style="--list-color:#993C1D;">${redFlagList}</ul>
+    </div>` : ''}
+
+    <div class="res-section">
+      <div class="res-section-title"><span class="icon">💊</span> Self-care tips</div>
+      <ul class="res-list">${selfCareList}</ul>
+    </div>
+
+    <p style="font-size:12px;color:var(--text-muted);margin-top:0.5rem;padding-top:1rem;border-top:1px solid #C0E8D6;">
+      ⚕️ This is not a medical diagnosis. These suggestions are for informational purposes only. Always consult a healthcare professional.
+    </p>
+  `;
+  show('symptoms-result');
+}
+
+// ── MEDICATIONS ──
+async function runMeds() {
+  if (!selectedMeds.length) { alert('Please add at least one medication.'); return; }
+
+  const context = `Medications: ${selectedMeds.join(', ')}${
+    document.getElementById('med-context').value.trim()
+      ? '\n\nPatient context: ' + document.getElementById('med-context').value.trim()
+      : ''}`;
+
+  showLoader('meds-loader');
+  hide('meds-result');
+
+  const system = `You are ZenSync, a careful AI medication information assistant. Analyze the given medications and respond ONLY with a JSON object (no markdown, no extra text):
+{
+  "summary": "<brief summary of what these medications are for>",
+  "medications": [
+    {
+      "name": "<medication name>",
+      "category": "<drug class>",
+      "commonUses": "<what it's used for>",
+      "sideEffects": ["<effect 1>", "<effect 2>", "<effect 3>"],
+      "warnings": "<key warning in 1-2 sentences>"
+    }
+  ],
+  "interactions": [
+    {"pair": "<Med A + Med B>", "severity": "<Mild|Moderate|Serious>", "description": "<what happens and why it matters>"}
+  ],
+  "generalAdvice": ["<advice 1>", "<advice 2>", "<advice 3>"],
+  "consultDoctor": "<one sentence on when to urgently consult a doctor>"
+}
+If only one medication, interactions array can be empty. Be factual, accessible, and cautious.`;
+
+  try {
+    const raw = await callClaude(system, context);
+    let json;
+    try { json = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
+    catch { throw new Error('Could not parse response'); }
+    renderMedsResult(json);
+  } catch (e) {
+    renderError('meds-result', e.message);
+  } finally {
+    hideLoader('meds-loader');
+  }
+}
+
+function renderMedsResult(d) {
+  const sevColor = { 'Mild':'#1D9E75', 'Moderate':'#D4960A', 'Serious':'#D85A30' };
+
+  const medCards = (d.medications || []).map(m => `
+    <div style="background:var(--white);border-radius:var(--radius-md);border:1px solid var(--border);padding:1.25rem;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <div style="font-weight:600;font-size:15px;">${m.name}</div>
+        <div style="font-size:11px;color:var(--teal-mid);background:var(--teal-light);padding:2px 10px;border-radius:100px;">${m.category}</div>
+      </div>
+      <div style="font-size:13px;color:var(--text-soft);margin-bottom:10px;">${m.commonUses}</div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Side effects</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+        ${(m.sideEffects||[]).map(se => `<span style="font-size:12px;background:#F0FAF6;color:var(--teal-deep);padding:3px 10px;border-radius:100px;border:1px solid #C0E8D6;">${se}</span>`).join('')}
+      </div>
+      ${m.warnings ? `<div style="font-size:13px;color:#712B13;background:#FAECE7;border-radius:8px;padding:8px 12px;">⚠️ ${m.warnings}</div>` : ''}
+    </div>`).join('');
+
+  const interCards = (d.interactions || []).map(i => `
+    <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);">
+      <span style="font-size:12px;font-weight:700;color:${sevColor[i.severity]||'#D4960A'};white-space:nowrap;padding-top:1px;">${i.severity}</span>
+      <div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:2px;">${i.pair}</div>
+        <div style="font-size:13px;color:var(--text-soft);line-height:1.5;">${i.description}</div>
+      </div>
+    </div>`).join('');
+
+  const adviceList = (d.generalAdvice || []).map(a => `<li>${a}</li>`).join('');
+
+  document.getElementById('meds-result').innerHTML = `
+    ${d.summary ? `<p style="font-size:14px;line-height:1.7;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid #C0E8D6;">${d.summary}</p>` : ''}
+
+    <div class="res-section">
+      <div class="res-section-title"><span class="icon">💊</span> Medication details</div>
+      ${medCards}
+    </div>
+
+    ${interCards ? `<div class="res-section">
+      <div class="res-section-title"><span class="icon">⚡</span> Potential interactions</div>
+      <div>${interCards}</div>
+    </div>` : `<div style="font-size:13px;color:var(--text-soft);margin-bottom:1.25rem;padding:0.75rem 1rem;background:var(--teal-light);border-radius:10px;">✓ No known interactions found between the listed medications.</div>`}
+
+    <div class="res-section">
+      <div class="res-section-title"><span class="icon">📋</span> General advice</div>
+      <ul class="res-list">${adviceList}</ul>
+    </div>
+
+    ${d.consultDoctor ? `<div style="font-size:13px;background:#FAECE7;border-radius:10px;padding:0.75rem 1rem;color:#712B13;margin-top:0.5rem;">
+      🏥 ${d.consultDoctor}
+    </div>` : ''}
+
+    <p style="font-size:12px;color:var(--text-muted);margin-top:1rem;padding-top:1rem;border-top:1px solid #C0E8D6;">
+      ⚕️ This is not medical advice. Always consult your pharmacist or doctor before making medication decisions.
+    </p>
+  `;
+  show('meds-result');
+}
+
+
+// ═══════════════════════════════════════════════
+// HOSPITAL CROWD CHECKER
+// Data: OpenStreetMap Overpass API (no API key)
+//       Nominatim geocoding (no API key)
+// Crowd: Simulated via time-of-day + deterministic hash per hospital
+// ═══════════════════════════════════════════════
+
+let lastHospitalCoords = null; // { lat, lon } — cached for refresh
+
+// ── GEOLOCATION ──
+function useGeolocation() {
+  if (!navigator.geolocation) {
+    alert('Geolocation not supported.');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-locate');
+  btn.textContent = '⏳ Locating…';
+  btn.disabled = true;
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+
+      btn.textContent = '📍 Near me';
+      btn.disabled = false;
+
+      document.getElementById('hosp-location-input').value =
+        `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+
+      // 🔥 force direct coordinates (no geocoding issues)
+      checkHospitals(lat, lon);
+    },
+    () => {
+      btn.textContent = '📍 Near me';
+      btn.disabled = false;
+      alert('Location access denied.');
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    }
+  );
+}
+
+// ── GEOCODE ADDRESS via Nominatim (OpenStreetMap, free, no key) ──
+async function geocodeAddress(query) {
+  // User-Agent is a forbidden browser header — identity provided via email param per Nominatim policy
+  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=3&addressdetails=1&accept-language=en`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Geocoding failed (HTTP ${res.status}). Check your network.`);
+  const data = await res.json();
+  if (!data || !data.length) throw new Error('Location not recognised. Try a city name with country — e.g. "Thrissur, India".');
+  return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon), displayName: data[0].display_name };
+}
+
+// ── OVERPASS API — fetch nearby hospitals via POST ──
+// POST avoids URL-length limits and is the method Overpass recommends for programmatic use.
+// `nwr` = node + way + relation shorthand. `out body center qt` gives coords for all element types.
+
+async function fetchNearbyHospitals(lat, lon, radius) {
+  const r = Math.max(8000, parseInt(radius)); // important fix
+
+  const query = `[out:json][timeout:25];
+(
+  node["amenity"="hospital"](around:${r},${lat},${lon});
+  node["amenity"="clinic"](around:${r},${lat},${lon});
+);
+out body;`;
+
+  let res;
+
+  try {
+    res = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      body: "data=" + encodeURIComponent(query)
+    });
+    if (!res.ok) throw new Error();
+  } catch {
+    res = await fetch("https://overpass.kumi.systems/api/interpreter", {
+      method: "POST",
+      body: "data=" + encodeURIComponent(query)
+    });
+  }
+
+  const data = await res.json();
+
+  return (data.elements || []).map((el, idx) => ({
+    id: el.id || idx,
+    name: el.tags?.name || `Hospital ${idx + 1}`,
+    address: "Address not available",
+    type: el.tags?.amenity === "clinic" ? "Clinic" : "Hospital",
+    lat: el.lat,
+    lon: el.lon
+  }));
+}
+
+function buildAddress(tags) {
+  const parts = [];
+  if (tags['addr:housenumber'] && tags['addr:street']) parts.push(`${tags['addr:housenumber']} ${tags['addr:street']}`);
+  else if (tags['addr:street']) parts.push(tags['addr:street']);
+  if (tags['addr:city']) parts.push(tags['addr:city']);
+  if (tags['addr:postcode']) parts.push(tags['addr:postcode']);
+  return parts.join(', ') || 'Address not available';
+}
+
+// ── HAVERSINE DISTANCE (km) ──
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// ── CROWD SIMULATION via time-of-day + day-of-week + deterministic noise per hospital ──
+// Logic: reflects real hospital busy patterns (morning rush, evening surge, quiet nights)
+function simulateCrowd(hospital) {
+  const now = new Date();
+  const hour = now.getHours();
+  const day = now.getDay(); // 0=Sun, 6=Sat
+
+  // Time-of-day base score (0–100)
+  let base;
+  if (hour >= 8 && hour < 11)       base = 82; // morning rush
+  else if (hour >= 11 && hour < 13) base = 60; // midday lull
+  else if (hour >= 13 && hour < 17) base = 68; // afternoon
+  else if (hour >= 17 && hour < 20) base = 78; // evening surge
+  else if (hour >= 20 && hour < 23) base = 48; // late evening
+  else if (hour >= 23 || hour < 2)  base = 28; // midnight
+  else                               base = 18; // early morning quiet
+
+  // Weekend bump
+  if (day === 0 || day === 6) base = Math.min(100, base + 12);
+
+  // Deterministic per-hospital noise so each card shows a different value
+  const hash = (hospital.id || 0) % 100;
+  const noise = Math.round((hash / 100) * 22) - 11; // –11 to +11
+  const score = Math.max(5, Math.min(98, base + noise));
+
+  let level, cssClass, barColor, waitMin, waitMax, peakLabel;
+  if (score < 35) {
+    level = 'Low'; cssClass = 'crowd-low'; barColor = '#1D9E75';
+    waitMin = 5; waitMax = 20; peakLabel = 'Quiet period';
+  } else if (score < 68) {
+    level = 'Medium'; cssClass = 'crowd-medium'; barColor = '#D4960A';
+    waitMin = 25; waitMax = 55; peakLabel = 'Moderate activity';
+  } else {
+    level = 'High'; cssClass = 'crowd-high'; barColor = '#D85A30';
+    waitMin = 60; waitMax = 120; peakLabel = 'Peak hours — expect delays';
+  }
+
+  // Deterministic wait within range
+  const spread = waitMax - waitMin;
+  const waitOffset = Math.round((hash / 100) * spread);
+  const wait = waitMin + waitOffset;
+
+  return { level, cssClass, barColor, score, wait, peakLabel };
+}
+
+function isHospitalOpen() {
+  const hour = new Date().getHours();
+  return hour >= 8 && hour <= 20;
+}
+
+// ── PEAK HOUR LABEL for context bar ──
+function getCurrentPeakLabel() {
+  const hour = new Date().getHours();
+  if (hour >= 8 && hour < 11)  return 'Morning rush — hospitals are busiest now';
+  if (hour >= 11 && hour < 13) return 'Midday — moderate activity across most hospitals';
+  if (hour >= 13 && hour < 17) return 'Afternoon — steady patient flow';
+  if (hour >= 17 && hour < 20) return 'Evening surge — expect higher wait times';
+  if (hour >= 20 && hour < 23) return 'Late evening — crowds tapering off';
+  return 'Off-peak hours — hospitals are generally quieter';
+}
+
+// ── MAIN ENTRY POINT ──
+async function checkHospitals(directLat, directLon) {
+  const locInput = document.getElementById('hosp-location-input').value.trim();
+  if (!directLat && !locInput) { alert('Please enter a location or use "Near me".'); return; }
+
+  setHospitalsLoading(true, 'Locating address…');
+  document.getElementById('hospitals-output').style.display = 'none';
+
+  try {
+    let lat, lon, resolvedName;
+
+    if (directLat && directLon) {
+      lat = directLat; lon = directLon;
+      resolvedName = 'your current location';
+    } else {
+      const coordMatch = locInput.match(/^(-?\d+\.?\d*)\s*,\s*(-?\d+\.?\d*)$/);
+      if (coordMatch) {
+        lat = parseFloat(coordMatch[1]); lon = parseFloat(coordMatch[2]);
+        resolvedName = 'your coordinates';
+      } else {
+        setHospitalsLoading(true, 'Geocoding address via Nominatim…');
+        const geo = await geocodeAddress(locInput);
+        lat = geo.lat; lon = geo.lon;
+        resolvedName = geo.displayName.split(',').slice(0, 3).join(',').trim();
+      }
+    }
+
+    lastHospitalCoords = { lat, lon };
+    let radius = parseInt(document.getElementById('hosp-radius').value) || 5000;
+
+    setHospitalsLoading(true, 'Fetching hospitals…');
+    let hospitals = await fetchNearbyHospitals(lat, lon, radius);
+
+    // Auto-expand radius if we got fewer than 5 results — common in less-mapped regions
+    if (hospitals.length < 5 && radius < 20000) {
+      const expandedRadius = Math.min(radius * 3, 25000);
+      setHospitalsLoading(true, `Only ${hospitals.length} found — expanding search to ${expandedRadius / 1000} km…`);
+      hospitals = await fetchNearbyHospitals(lat, lon, expandedRadius);
+      radius = expandedRadius;
+    }
+
+    // Attach distance, sort nearest-first, cap display at 15
+    hospitals = hospitals
+      .map(h => ({ ...h, distKm: haversine(lat, lon, h.lat, h.lon) }))
+      .sort((a, b) => a.distKm - b.distKm)
+      .slice(0, 15);
+
+    setHospitalsLoading(false);
+    renderHospitals(hospitals, resolvedName, radius / 1000);
+    document.getElementById('hosp-refresh-btn').style.display = 'inline-flex';
+
+  } catch (err) {
+    setHospitalsLoading(false);
+    const out = document.getElementById('hospitals-output');
+    out.style.display = 'block';
+    out.innerHTML = `
+      <div class="result-box error-box visible" style="margin-top:0;">
+        <div style="font-size:14px;color:#712B13;">
+          <strong>Could not fetch hospitals</strong><br/>
+          <span style="color:var(--text-soft)">${err.message || 'Check your network and try again.'}</span>
+        </div>
+      </div>`;
+  }
+}
+
+// ── REFRESH ──
+async function refreshHospitals() {
+  if (!lastHospitalCoords) return;
+  const btn = document.getElementById('hosp-refresh-btn');
+  btn.classList.add('spinning');
+  await checkHospitals(lastHospitalCoords.lat, lastHospitalCoords.lon);
+  btn.classList.remove('spinning');
+}
+
+// ── CLEAR ──
+function clearHospitals() {
+  document.getElementById('hosp-location-input').value = '';
+  document.getElementById('hospitals-output').style.display = 'none';
+  document.getElementById('hosp-refresh-btn').style.display = 'none';
+  lastHospitalCoords = null;
+}
+
+// ── LOADING STATE ──
+function setHospitalsLoading(on, msg) {
+  const loader = document.getElementById('hospitals-loader');
+  const text = document.getElementById('hospitals-loader-text');
+  if (on) {
+    loader.classList.add('visible');
+    if (msg) text.textContent = msg;
+  } else {
+    loader.classList.remove('visible');
+  }
+}
+
+// ── RENDER ──
+function renderHospitals(hospitals, locationName, radiusKm) {
+  const out = document.getElementById('hospitals-output');
+  out.style.display = 'block';
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const peakLabel = getCurrentPeakLabel();
+
+  if (!hospitals.length) {
+    out.innerHTML = `
+      <div class="time-context-bar">🕐 <span>Checked at <strong>${timeStr}</strong> — ${peakLabel}</span></div>
+      <div class="hosp-empty">
+        <p>No hospitals found within ${radiusKm} km of ${locationName}.</p>
+        <p style="margin-top:8px;">Try expanding the search radius or check the spelling of your location.</p>
+      </div>`;
+    return;
+  }
+
+  const cards = hospitals.map(h => {
+    const crowd = simulateCrowd(h);
+    const distLabel = h.distKm < 1
+      ? `${Math.round(h.distKm * 1000)} m away`
+      : `${h.distKm.toFixed(1)} km away`;
+
+    return `
+      <div class="hosp-card">
+        <div class="hosp-card" onclick="this.classList.toggle('open')">
+  <div>
+    <div class="hosp-name">${h.name}</div>
+    <div class="hosp-type-tag">${h.type}</div>
+    <div class="hosp-address">${h.address}</div>
+    <div class="hosp-distance">📍 ${distLabel}</div>
+
+    <div class="hosp-extra">
+      <div><strong>Departments:</strong> General Medicine, Emergency, Orthopedics, Pediatrics, Cardiology</div>
+      <div style="margin-top:6px;">${h.description || "A multi-specialty hospital providing 24/7 emergency and outpatient care."}</div>
+      <div style="margin-top:6px;">
+        <strong>Status:</strong> ${isHospitalOpen() ? "Open" : "Closed"}
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="hosp-right">
+          <span class="crowd-badge ${crowd.cssClass}">${crowd.level}</span>
+          <div>
+            <div class="wait-label">Est. wait</div>
+            <div class="wait-time">${crowd.wait} min</div>
+          </div>
+          <div class="hosp-peek-time">${crowd.peakLabel}</div>
+        </div>
+        <div class="crowd-bar-wrap">
+          <div class="crowd-bar-track">
+            <div class="crowd-bar-fill" style="width:${crowd.score}%;background:${crowd.barColor};"></div>
+          </div>
+          <div class="crowd-bar-pct">${crowd.score}%</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  out.innerHTML = `
+    <div class="time-context-bar">
+      🕐 <span>Updated at <strong>${timeStr}</strong> — ${peakLabel}</span>
+    </div>
+    <div class="hosp-meta-bar">
+      <span>${hospitals.length} hospitals found within ${radiusKm} km of ${locationName}</span>
+      <span>Crowd data simulated · Based on time of day</span>
+    </div>
+    <div class="hosp-grid">${cards}</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:1.5rem;text-align:center;line-height:1.6;">
+      ⚕️ Hospital locations from OpenStreetMap contributors · Crowd levels are estimates based on time-of-day patterns, not live sensor data.<br/>
+      For emergencies, call your local emergency number immediately.
+    </p>
+  `;
+}
+
+function renderError(id, msg) {
+  const el = document.getElementById(id);
+  el.classList.add('error-box');
+  el.innerHTML = `
+    <div style="font-size:14px;color:#712B13;">
+      <strong>Something went wrong</strong><br/>
+      <span style="color:var(--text-soft)">${msg || 'Please try again. Make sure you have a network connection.'}</span>
+    </div>`;
+  show(id);
+}
+</script>
+</body>
+</html>
