@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Inject API key
-        run: sed -i "s|\$GROQ_KEY_PLACEHOLDER|${{ secrets.GROQ_KEY }}|g" index.html
+        run: sed -i "s|GROQ_KEY_PLACEHOLDER|${{ secrets.GROQ_KEY }}|g" index.html
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
