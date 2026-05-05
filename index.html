@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title><b>ZenSync</b>the health Companion</title>
+<title>ZenSync</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --teal-deep:#12574a;
+  --teal-deep:#083D33;
   --teal-mid:#0F6E56;
   --teal-bright:#1D9E75;
   --teal-light:#E1F5EE;
@@ -623,18 +623,6 @@ footer a{color:rgba(255,255,255,0.5);text-decoration:none;}
   font-size:11px;color:var(--text-soft);
   margin-top:2px;text-align:right;
 }
-
-.hosp-extra { 
-  display:none; 
-  margin-top:10px; 
-  font-size:12px; 
-  color:var(--text-soft); 
-  line-height:1.5;
-}
-.hosp-card.open .hosp-extra { 
-  display:block; 
-}
-
 .time-context-bar{
   display:flex;align-items:center;gap:8px;
   background:var(--teal-pale);
@@ -692,7 +680,7 @@ footer a{color:rgba(255,255,255,0.5);text-decoration:none;}
 <div class="hero">
   <p class="hero-eyebrow">Your Health Companion</p>
   <h1 class="hero-title">Feel understood.<br/><em>Take the first step.</em></h1>
-  <p class="hero-sub">Accessible health guidance for your mind and body , designed with care.</p>
+  <p class="hero-sub">Accessible health guidance for your mind and body, designed with care.</p>
   <div class="disclaimer-badge">
     <span>🛡️</span> First-level support only · Always consult a professional for medical decisions
   </div>
@@ -717,13 +705,14 @@ footer a{color:rgba(255,255,255,0.5);text-decoration:none;}
   </button>
 </nav>
 
+<!-- ── API KEY BANNER ── -->
 <main class="main">
 
   <!-- ──── MENTAL HEALTH SECTION ──── -->
   <section class="section active" id="sec-mental">
     <div class="section-header">
       <h2 class="section-title">How are you feeling?</h2>
-      <p class="section-desc">Share what's on your mind :your emotions, stress, or any mental health concerns. We'll analyze your state and suggest next steps.</p>
+      <p class="section-desc">Share what's on your mind — your emotions, stress, or any mental health concerns. We'll analyze your state and suggest next steps.</p>
     </div>
 
     <div class="card">
@@ -904,13 +893,15 @@ footer a{color:rgba(255,255,255,0.5);text-decoration:none;}
 </main>
 
 <footer>
-  <p><strong style="color:rgba(255,255,255,0.6);">ZenSync</strong> is a first-level support tool and does not replace professional medical or psychological advice.<br/>
+  <p style="color:rgba(191, 203, 26, 0.8);"><strong>ZenSync</strong> is a first-level support tool and does not replace professional medical or psychological advice.<br/>
   If you are in crisis, call your local emergency number or a mental health helpline immediately.<br/>
-  Built with ❤️ </p>
+  Built with ❤️</p>
 </footer>
 
 <script>
-const API_URL = 'https://api.anthropic.com/v1/messages';
+// ── GROQ CONFIG — paste your free key from console.groq.com ──
+const GROQ_KEY = '__GROQ_KEY__';
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 // ── STATE ──
 let selectedMeds = [];
@@ -993,21 +984,30 @@ function hide(id) { document.getElementById(id).classList.remove('visible'); }
 function showLoader(id) { document.getElementById(id).classList.add('visible'); }
 function hideLoader(id) { document.getElementById(id).classList.remove('visible'); }
 
-// ── CLAUDE API CALL ──
+// ── AI CALL — direct Groq (free tier) ──
 async function callClaude(systemPrompt, userMessage) {
-  const res = await fetch(API_URL, {
+  const res = await fetch(GROQ_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${GROQ_KEY}`
+    },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'llama-3.3-70b-versatile',
       max_tokens: 1000,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userMessage }]
+      temperature: 0.4,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user',   content: userMessage  }
+      ]
     })
   });
-  if (!res.ok) throw new Error(`API error ${res.status}`);
+  if (!res.ok) {
+    const errBody = await res.json().catch(() => ({}));
+    throw new Error(errBody?.error?.message || `Error ${res.status}`);
+  }
   const data = await res.json();
-  return data.content.map(b => b.text || '').join('');
+  return data.choices?.[0]?.message?.content || '';
 }
 
 // ── MENTAL HEALTH ──
@@ -1321,38 +1321,27 @@ let lastHospitalCoords = null; // { lat, lon } — cached for refresh
 // ── GEOLOCATION ──
 function useGeolocation() {
   if (!navigator.geolocation) {
-    alert('Geolocation not supported.');
+    alert('Geolocation is not supported by your browser. Please type your location.');
     return;
   }
-
   const btn = document.querySelector('.btn-locate');
   btn.textContent = '⏳ Locating…';
   btn.disabled = true;
-
   navigator.geolocation.getCurrentPosition(
     (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-
       btn.textContent = '📍 Near me';
       btn.disabled = false;
-
-      document.getElementById('hosp-location-input').value =
-        `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
-
-      // 🔥 force direct coordinates (no geocoding issues)
+      const { latitude: lat, longitude: lon } = pos.coords;
+      lastHospitalCoords = { lat, lon };
+      document.getElementById('hosp-location-input').value = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
       checkHospitals(lat, lon);
     },
-    () => {
+    (err) => {
       btn.textContent = '📍 Near me';
       btn.disabled = false;
-      alert('Location access denied.');
+      alert('Could not get your location. Please type it in the box instead.');
     },
-    {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 0
-    }
+    { timeout: 10000 }
   );
 }
 
@@ -1370,42 +1359,66 @@ async function geocodeAddress(query) {
 // ── OVERPASS API — fetch nearby hospitals via POST ──
 // POST avoids URL-length limits and is the method Overpass recommends for programmatic use.
 // `nwr` = node + way + relation shorthand. `out body center qt` gives coords for all element types.
-
 async function fetchNearbyHospitals(lat, lon, radius) {
-  const r = Math.max(8000, parseInt(radius)); // important fix
+  // Cast radius to int, enforce a minimum of 5000m so sparse regions still return results
+  const r = Math.max(5000, parseInt(radius));
 
-  const query = `[out:json][timeout:25];
+  const query = `[out:json][timeout:30];
 (
-  node["amenity"="hospital"](around:${r},${lat},${lon});
-  node["amenity"="clinic"](around:${r},${lat},${lon});
+  nwr["amenity"="hospital"](around:${r},${lat},${lon});
+  nwr["amenity"="clinic"](around:${r},${lat},${lon});
+  nwr["healthcare"="hospital"](around:${r},${lat},${lon});
+  nwr["healthcare"="clinic"](around:${r},${lat},${lon});
+  nwr["healthcare"="centre"](around:${r},${lat},${lon});
 );
-out body;`;
+out body center qt;`;
 
   let res;
-
   try {
-    res = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      body: "data=" + encodeURIComponent(query)
+    // Primary Overpass endpoint
+    res = await fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `data=${encodeURIComponent(query)}`
     });
-    if (!res.ok) throw new Error();
-  } catch {
-    res = await fetch("https://overpass.kumi.systems/api/interpreter", {
-      method: "POST",
-      body: "data=" + encodeURIComponent(query)
+  } catch (_) {
+    // Fallback mirror if primary is down
+    res = await fetch('https://overpass.kumi.systems/api/interpreter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `data=${encodeURIComponent(query)}`
     });
   }
+  if (!res.ok) throw new Error(`Overpass API error (HTTP ${res.status}). Try again in a moment.`);
 
   const data = await res.json();
 
-  return (data.elements || []).map((el, idx) => ({
-    id: el.id || idx,
-    name: el.tags?.name || `Hospital ${idx + 1}`,
-    address: "Address not available",
-    type: el.tags?.amenity === "clinic" ? "Clinic" : "Hospital",
-    lat: el.lat,
-    lon: el.lon
-  }));
+  return (data.elements || []).map((el, idx) => {
+    const tags = el.tags || {};
+    // Nodes have el.lat/el.lon directly; ways/relations have el.center.lat/lon
+    const elLat = el.lat != null ? el.lat : el.center?.lat;
+    const elLon = el.lon != null ? el.lon : el.center?.lon;
+
+    // Build a display name — fall back gracefully for unnamed OSM entries
+    const name = tags.name
+      || tags['name:en']
+      || tags['name:ta'] || tags['name:ml'] || tags['name:hi']
+      || tags['operator']
+      || `Hospital ${idx + 1}`;
+
+    return {
+      id: el.id || idx,
+      name,
+      address: buildAddress(tags),
+      type: tags.amenity === 'clinic' || tags.healthcare === 'clinic' || tags.healthcare === 'centre'
+        ? 'Clinic / Health Centre' : 'Hospital',
+      phone: tags.phone || tags['contact:phone'] || null,
+      emergency: tags.emergency === 'yes',
+      lat: elLat,
+      lon: elLon,
+    };
+  // Only drop entries where coordinates are truly missing
+  }).filter(h => h.lat != null && h.lon != null);
 }
 
 function buildAddress(tags) {
@@ -1472,11 +1485,6 @@ function simulateCrowd(hospital) {
   return { level, cssClass, barColor, score, wait, peakLabel };
 }
 
-function isHospitalOpen() {
-  const hour = new Date().getHours();
-  return hour >= 8 && hour <= 20;
-}
-
 // ── PEAK HOUR LABEL for context bar ──
 function getCurrentPeakLabel() {
   const hour = new Date().getHours();
@@ -1518,7 +1526,7 @@ async function checkHospitals(directLat, directLon) {
     lastHospitalCoords = { lat, lon };
     let radius = parseInt(document.getElementById('hosp-radius').value) || 5000;
 
-    setHospitalsLoading(true, 'Fetching hospitals…');
+    setHospitalsLoading(true, 'Fetching hospitals from OpenStreetMap…');
     let hospitals = await fetchNearbyHospitals(lat, lon, radius);
 
     // Auto-expand radius if we got fewer than 5 results — common in less-mapped regions
@@ -1608,22 +1616,12 @@ function renderHospitals(hospitals, locationName, radiusKm) {
 
     return `
       <div class="hosp-card">
-        <div class="hosp-card" onclick="this.classList.toggle('open')">
-  <div>
-    <div class="hosp-name">${h.name}</div>
-    <div class="hosp-type-tag">${h.type}</div>
-    <div class="hosp-address">${h.address}</div>
-    <div class="hosp-distance">📍 ${distLabel}</div>
-
-    <div class="hosp-extra">
-      <div><strong>Departments:</strong> General Medicine, Emergency, Orthopedics, Pediatrics, Cardiology</div>
-      <div style="margin-top:6px;">${h.description || "A multi-specialty hospital providing 24/7 emergency and outpatient care."}</div>
-      <div style="margin-top:6px;">
-        <strong>Status:</strong> ${isHospitalOpen() ? "Open" : "Closed"}
-      </div>
-    </div>
-  </div>
-</div>
+        <div>
+          <div class="hosp-name">${h.name}</div>
+          <div class="hosp-type-tag">${h.type}${h.emergency ? ' · Emergency dept.' : ''}</div>
+          <div class="hosp-address">${h.address}</div>
+          <div class="hosp-distance">📍 ${distLabel}</div>
+        </div>
         <div class="hosp-right">
           <span class="crowd-badge ${crowd.cssClass}">${crowd.level}</span>
           <div>
