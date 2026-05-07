@@ -1002,30 +1002,25 @@ function hideLoader(id) { document.getElementById(id).classList.remove('visible'
 
 // ── AI CALL — direct Groq (free tier) ──
 async function callClaude(systemPrompt, userMessage) {
-  const res = await fetch(GROQ_URL, {
+  const res = await fetch('/api/chat', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${GROQ_KEY}`
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      max_tokens: 1000,
-      temperature: 0.4,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user',   content: userMessage  }
-      ]
+      system: systemPrompt,
+      user: userMessage
     })
   });
-  if (!res.ok) {
-    const errBody = await res.json().catch(() => ({}));
-    throw new Error(errBody?.error?.message || `Error ${res.status}`);
-  }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content || '';
-}
 
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || `Error ${res.status}`);
+  }
+
+  return data.result;
+}
 // ── MENTAL HEALTH ──
 async function runMental() {
   const text = document.getElementById('mental-input').value.trim();
