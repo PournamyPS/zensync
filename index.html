@@ -899,10 +899,26 @@ footer a{color:rgba(255,255,255,0.5);text-decoration:none;}
 </footer>
 
 <script>
-// ── GROQ CONFIG — paste your free key from console.groq.com ──
-const GROQ_KEY = "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";
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+async function callClaude(systemPrompt, userMessage) {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      system: systemPrompt,
+      user: userMessage
+    })
+  });
 
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || `Error ${res.status}`);
+  }
+
+  return data.result;
+}
 // ── STATE ──
 let selectedMeds = [];
 let selectedSeverity = '';
