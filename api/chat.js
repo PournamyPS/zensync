@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   const { system, user } = req.body;
   if (!system || !user) return res.status(400).json({ error: 'Missing system or user' });
-
+  console.log("KEY EXISTS:", !!process.env.GROQ_KEY);
   const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
