@@ -155,8 +155,8 @@ Disclaimer: This tool provides general guidance only and does not replace profes
 
 
 ## Live Demo
-https://zensync-nine.vercel.app/
+[Zensync](https://zensync-nine.vercel.app/)
 
 ## My Hackathon Journey
 I documented the full development process of ZenSync, challenges faced, and how the idea evolved during the hackathon.
-Read here: https://medium.com/@pournamyps9c/a-last-minute-leap-my-hackathon-experience-cb6dcd447853
+Read [here](https://medium.com/@pournamyps9c/a-last-minute-leap-my-hackathon-experience-cb6dcd447853)
